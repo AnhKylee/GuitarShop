@@ -13,6 +13,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.guitarshop.ui.ProductActivity;
+
 public class MainActivity extends AppCompatActivity {
 
     //Tam chua co login
@@ -25,6 +27,6 @@ public class MainActivity extends AppCompatActivity {
         Button btnManager = findViewById(R.id.btnManager);
 
         btnManager.setOnClickListener(view -> startActivity(new Intent(this, ManagerActivity.class)));
-        btnCustomer.setOnClickListener(view -> startActivity(new Intent(this, CustomerActivity.class)));
+        btnCustomer.setOnClickListener(view -> startActivity(new Intent(this, ProductActivity.class)));
     }
 }
