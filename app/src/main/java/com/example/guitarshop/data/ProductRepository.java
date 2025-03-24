@@ -11,9 +11,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductRepository {
-    private static final String URL = "jdbc:jtds:sqlserver://192.168.0.107:1433/GuitarShop"; // Thay bằng IP, cổng, và database
+    private static final String URL = "jdbc:jtds:sqlserver://192.168.1.15:1433/GuitarShop"; // Thay bằng IP, cổng, và database
     private static final String USER = "sa"; // Thay bằng username SQL Server
-    private static final String PASSWORD = "123456"; // Thay bằng password SQL Server
+    private static final String PASSWORD = "12345"; // Thay bằng password SQL Server
+
+    public static Connection getConnection() {
+        Connection connection = null;
+        try {
+            // Load JDBC Driver
+            Class.forName("net.sourceforge.jtds.jdbc.Driver");
+            // Establish connection
+            connection = DriverManager.getConnection(URL, USER, PASSWORD);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            System.out.println("JDBC Driver not found.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("SQL Connection Error: " + e.getMessage());
+        }
+        return connection;
+    }
 
     public List<Product> getProducts() {
         List<Product> products = new ArrayList<>();

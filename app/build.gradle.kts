@@ -53,6 +53,9 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:32.1.1"))
     implementation("com.google.firebase:firebase-auth")
 
+    // jTDS để kết nối SQL Server
+    implementation("net.sourceforge.jtds:jtds:1.3.1")
+
     // ZaloPay SDK (For payments)
     implementation("com.squareup.okhttp3:okhttp:4.6.0");
     implementation("commons-codec:commons-codec:1.14");

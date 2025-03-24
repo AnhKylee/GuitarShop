@@ -26,4 +26,32 @@ public class Product {
     public int getStock() { return stock; }
     public String getImageUrl() { return imageUrl; }
     public int getSellerId() { return sellerId; }
+
+    public void setStock(int stock) {
+        this.stock = stock;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setProductId(int productId) {
+        this.productId = productId;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public void setSellerId(int sellerId) {
+        this.sellerId = sellerId;
+    }
 }
