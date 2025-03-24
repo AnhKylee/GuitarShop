@@ -73,6 +73,16 @@ dependencies {
         "exclude" to listOf("")
     )))
 
+    //Picasso
+    implementation("com.squareup.picasso:picasso:2.8")
+
+    //Anh
+    implementation(fileTree(mapOf(
+        "dir" to "D:\\DemoZPDK_Android\\DemoZPDK_Android\\ZPDK-Android",
+        "include" to listOf("*.aar", "*.jar"),
+        "exclude" to listOf("")
+    )))
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
