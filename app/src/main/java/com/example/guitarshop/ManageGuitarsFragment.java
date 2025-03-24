@@ -63,9 +63,14 @@ public class ManageGuitarsFragment extends Fragment {
             int sellerID = Integer.parseInt(edtSellerID.getText().toString().trim());
 
             Product newProduct = new Product(0, name, description, price, stock, imageURL, sellerID);
-            boolean isInserted = productDAO.insertProduct(newProduct);
+            productDAO.insertProduct(newProduct, success -> {
+                if (success) {
+                    Toast.makeText(getContext(), "Thêm sản phẩm thành công!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), "Thêm sản phẩm thất bại!", Toast.LENGTH_SHORT).show();
+                }
+            });
 
-            showToast(isInserted ? "Product Added Successfully!" : "Failed to Add Product.");
         } catch (Exception e) {
             showToast("Error: " + e.getMessage());
             Log.e("ManageGuitarsFragment", "Add Product Error", e);
@@ -84,9 +89,14 @@ public class ManageGuitarsFragment extends Fragment {
             int sellerID = Integer.parseInt(edtSellerID.getText().toString().trim());
 
             Product updatedProduct = new Product(productID, name, description, price, stock, imageURL, sellerID);
-            boolean isUpdated = productDAO.updateProduct(updatedProduct);
+            productDAO.updateProduct(updatedProduct, success -> {
+                if (success) {
+                    Toast.makeText(getContext(), "Sửa sản phẩm thành công!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), "Sửa sản phẩm thất bại!", Toast.LENGTH_SHORT).show();
+                }
+            });
 
-            showToast(isUpdated ? "Product Updated Successfully!" : "Failed to Update Product.");
         } catch (Exception e) {
             showToast("Error: " + e.getMessage());
             Log.e("ManageGuitarsFragment", "Update Product Error", e);
@@ -97,9 +107,14 @@ public class ManageGuitarsFragment extends Fragment {
     private void deleteProduct() {
         try {
             int productID = Integer.parseInt(edtProductID.getText().toString().trim());
-            boolean isDeleted = productDAO.deleteProduct(productID);
+            productDAO.deleteProduct(productID, success -> {
+                if (success) {
+                    Toast.makeText(getContext(), "Xóa sản phẩm thành công!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), "Xóa sản phẩm thất bại!", Toast.LENGTH_SHORT).show();
+                }
+            });
 
-            showToast(isDeleted ? "Product Deleted Successfully!" : "Failed to Delete Product.");
         } catch (Exception e) {
             showToast("Error: " + e.getMessage());
             Log.e("ManageGuitarsFragment", "Delete Product Error", e);
@@ -109,16 +124,15 @@ public class ManageGuitarsFragment extends Fragment {
     // View All Products
     private void viewAllProducts() {
         try {
-            List<Product> productList = productDAO.getAllProducts();
-
-            if (productList.isEmpty()) {
-                showToast("No products found.");
-            } else {
-                for (Product product : productList) {
-                    Log.d("ManageGuitarsFragment", "Product: " + product.getProductId() + " - " + product.getName());
+            productDAO.getAllProducts(products -> {
+                if (products.isEmpty()) {
+                    Toast.makeText(getContext(), "Không có sản phẩm nào!", Toast.LENGTH_SHORT).show();
+                } else {
+                    for (Product product : products) {
+                        Log.d("Product", "Tên: " + product.getName() + ", Giá: " + product.getPrice());
+                    }
                 }
-                showToast("Check Log for Product List.");
-            }
+            });
         } catch (Exception e) {
             showToast("Error: " + e.getMessage());
             Log.e("ManageGuitarsFragment", "View All Products Error", e);

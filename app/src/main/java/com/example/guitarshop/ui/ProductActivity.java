@@ -92,7 +92,7 @@ public class ProductActivity extends AppCompatActivity implements ProductAdapter
         });
     }
 
-    private class LoadProductsTask extends AsyncTask<Void, Void, List<Product>> {
+    public class LoadProductsTask extends AsyncTask<Void, Void, List<Product>> {
         @Override
         protected List<Product> doInBackground(Void... voids) {
             return productRepository.getProducts();

@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductRepository {
-    private static final String URL = "jdbc:jtds:sqlserver://192.168.1.15:1433/GuitarShop"; // Thay bằng IP, cổng, và database
+    private static final String URL = "jdbc:jtds:sqlserver://10.0.2.2:1433;databaseName=GuitarShop;user=sa;password=12345;loginTimeout=30"; // Thay bằng IP, cổng, và database
     private static final String USER = "sa"; // Thay bằng username SQL Server
     private static final String PASSWORD = "12345"; // Thay bằng password SQL Server
 
@@ -21,7 +21,7 @@ public class ProductRepository {
             // Load JDBC Driver
             Class.forName("net.sourceforge.jtds.jdbc.Driver");
             // Establish connection
-            connection = DriverManager.getConnection(URL, USER, PASSWORD);
+            connection = DriverManager.getConnection(URL);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
             System.out.println("JDBC Driver not found.");
@@ -40,7 +40,7 @@ public class ProductRepository {
 
         try {
             Class.forName("net.sourceforge.jtds.jdbc.Driver");
-            connection = DriverManager.getConnection(URL, USER, PASSWORD);
+            connection = DriverManager.getConnection(URL);
             statement = connection.createStatement();
             resultSet = statement.executeQuery("SELECT ProductID, Name, Description, Price, Stock, ImageURL, SellerID FROM Products");
 

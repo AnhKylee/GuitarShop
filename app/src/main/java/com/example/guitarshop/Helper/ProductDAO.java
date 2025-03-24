@@ -8,115 +8,119 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class ProductDAO {
-    // Create (Insert Product)
-    public boolean insertProduct(Product product) {
-        Connection conn = ProductRepository.getConnection();
-        if (conn == null) return false;
+    private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
-        String query = "INSERT INTO Products (Name, Description, Price, Stock, ImageURL, SellerID) VALUES (?, ?, ?, ?, ?, ?)";
-
-        try {
-            PreparedStatement stmt = conn.prepareStatement(query);
-            stmt.setString(1, product.getName());
-            stmt.setString(2, product.getDescription());
-            stmt.setDouble(3, product.getPrice());
-            stmt.setInt(4, product.getStock());
-            stmt.setString(5, product.getImageUrl());
-            stmt.setInt(6, product.getSellerId());
-
-            int rowsInserted = stmt.executeUpdate();
-            stmt.close();
-            conn.close();
-
-            return rowsInserted > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    // Read (Get All Products)
-    public List<Product> getAllProducts() {
-        List<Product> products = new ArrayList<>();
-        Connection conn = ProductRepository.getConnection();
-        if (conn == null) return products;
-
-        String query = "SELECT * FROM Products";
-
-        try {
-            PreparedStatement stmt = conn.prepareStatement(query);
-            ResultSet rs = stmt.executeQuery();
-
-            while (rs.next()) {
-                Product product = new Product(
-                        rs.getInt("ProductID"),
-                        rs.getString("Name"),
-                        rs.getString("Description"),
-                        rs.getDouble("Price"),
-                        rs.getInt("Stock"),
-                        rs.getString("ImageURL"),
-                        rs.getInt("SellerID")
-                );
-                products.add(product);
+    // Insert Product (Asynchronous)
+    public void insertProduct(Product product, Callback<Boolean> callback) {
+        executor.execute(() -> {
+            boolean success = false;
+            Connection conn = ProductRepository.getConnection();
+            if (conn != null) {
+                String query = "INSERT INTO Products (Name, Description, Price, Stock, ImageURL, SellerID) VALUES (?, ?, ?, ?, ?, ?)";
+                try {
+                    PreparedStatement stmt = conn.prepareStatement(query);
+                    stmt.setString(1, product.getName());
+                    stmt.setString(2, product.getDescription());
+                    stmt.setDouble(3, product.getPrice());
+                    stmt.setInt(4, product.getStock());
+                    stmt.setString(5, product.getImageUrl());
+                    stmt.setInt(6, product.getSellerId());
+                    success = stmt.executeUpdate() > 0;
+                    stmt.close();
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
-            rs.close();
-            stmt.close();
-            conn.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return products;
+            callback.onComplete(success);
+        });
     }
 
-    // Update Product
-    public boolean updateProduct(Product product) {
-        Connection conn = ProductRepository.getConnection();
-        if (conn == null) return false;
-
-        String query = "UPDATE Products SET Name=?, Description=?, Price=?, Stock=?, ImageURL=?, SellerID=? WHERE ProductID=?";
-
-        try {
-            PreparedStatement stmt = conn.prepareStatement(query);
-            stmt.setString(1, product.getName());
-            stmt.setString(2, product.getDescription());
-            stmt.setDouble(3, product.getPrice());
-            stmt.setInt(4, product.getStock());
-            stmt.setString(5, product.getImageUrl());
-            stmt.setInt(6, product.getSellerId());
-            stmt.setInt(7, product.getProductId());
-
-            int rowsUpdated = stmt.executeUpdate();
-            stmt.close();
-            conn.close();
-
-            return rowsUpdated > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
+    // Get All Products (Asynchronous)
+    public void getAllProducts(Callback<List<Product>> callback) {
+        executor.execute(() -> {
+            List<Product> products = new ArrayList<>();
+            Connection conn = ProductRepository.getConnection();
+            if (conn != null) {
+                String query = "SELECT * FROM Products";
+                try {
+                    PreparedStatement stmt = conn.prepareStatement(query);
+                    ResultSet rs = stmt.executeQuery();
+                    while (rs.next()) {
+                        products.add(new Product(
+                                rs.getInt("ProductID"),
+                                rs.getString("Name"),
+                                rs.getString("Description"),
+                                rs.getDouble("Price"),
+                                rs.getInt("Stock"),
+                                rs.getString("ImageURL"),
+                                rs.getInt("SellerID")));
+                    }
+                    rs.close();
+                    stmt.close();
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            callback.onComplete(products);
+        });
     }
 
-    // Delete Product
-    public boolean deleteProduct(int productID) {
-        Connection conn = ProductRepository.getConnection();
-        if (conn == null) return false;
+    // Update Product (Asynchronous)
+    public void updateProduct(Product product, Callback<Boolean> callback) {
+        executor.execute(() -> {
+            boolean success = false;
+            Connection conn = ProductRepository.getConnection();
+            if (conn != null) {
+                String query = "UPDATE Products SET Name=?, Description=?, Price=?, Stock=?, ImageURL=?, SellerID=? WHERE ProductID=?";
+                try {
+                    PreparedStatement stmt = conn.prepareStatement(query);
+                    stmt.setString(1, product.getName());
+                    stmt.setString(2, product.getDescription());
+                    stmt.setDouble(3, product.getPrice());
+                    stmt.setInt(4, product.getStock());
+                    stmt.setString(5, product.getImageUrl());
+                    stmt.setInt(6, product.getSellerId());
+                    stmt.setInt(7, product.getProductId());
+                    success = stmt.executeUpdate() > 0;
+                    stmt.close();
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            callback.onComplete(success);
+        });
+    }
 
-        String query = "DELETE FROM Products WHERE ProductID=?";
+    // Delete Product (Asynchronous)
+    public void deleteProduct(int productID, Callback<Boolean> callback) {
+        executor.execute(() -> {
+            boolean success = false;
+            Connection conn = ProductRepository.getConnection();
+            if (conn != null) {
+                String query = "DELETE FROM Products WHERE ProductID=?";
+                try {
+                    PreparedStatement stmt = conn.prepareStatement(query);
+                    stmt.setInt(1, productID);
+                    success = stmt.executeUpdate() > 0;
+                    stmt.close();
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            callback.onComplete(success);
+        });
+    }
 
-        try {
-            PreparedStatement stmt = conn.prepareStatement(query);
-            stmt.setInt(1, productID);
-
-            int rowsDeleted = stmt.executeUpdate();
-            stmt.close();
-            conn.close();
-
-            return rowsDeleted > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
+    // Callback interface for async operations
+    public interface Callback<T> {
+        void onComplete(T result);
     }
 }
