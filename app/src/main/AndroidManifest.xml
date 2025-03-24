@@ -36,6 +36,16 @@
             android:exported="false"/>
         <activity android:name=".PaymentNotification"
             android:exported="false"/>
+        <activity android:name=".ui.ProductActivity"
+            android:exported="false" />
+        <activity android:name=".ui.CartActivity"
+            android:exported="false" />
+        <activity android:name=".PaymentActivity"
+            android:exported="false" />
+        <activity android:name=".CustomerActivity"
+            android:exported="false" />
+        <activity android:name=".ManagerActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

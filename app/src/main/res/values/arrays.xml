@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="sort_options">
+        <item>Mặc định</item>
+        <item>Giá: Thấp đến Cao</item>
+        <item>Giá: Cao đến Thấp</item>
+        <item>Tồn kho: Thấp đến Cao</item>
+        <item>Tồn kho: Cao đến Thấp</item>
+    </string-array>
+</resources>

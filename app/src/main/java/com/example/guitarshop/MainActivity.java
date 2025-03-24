@@ -15,32 +15,16 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button btnConfirm;
-    EditText edtSoluong;
-
+    //Tam chua co login
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-        btnConfirm = findViewById(R.id.buttonConfirm);
-        edtSoluong = findViewById(R.id.editTextSoluong);
 
-        btnConfirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (edtSoluong.getText() == null || edtSoluong.getText().toString().isEmpty()) {
-                    Toast.makeText(MainActivity.this, "Nhập số lượng muốn mua", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+        Button btnCustomer = findViewById(R.id.btnCustomer);
+        Button btnManager = findViewById(R.id.btnManager);
 
-                String s = edtSoluong.getText().toString();
-                int amount  = Integer.parseInt(s);
-
-                Intent intent = new Intent(MainActivity.this, OrderPayment.class);
-                intent.putExtra("soluong", amount);
-                startActivity(intent);
-            }
-        });
+        btnManager.setOnClickListener(view -> startActivity(new Intent(this, ManagerActivity.class)));
+        btnCustomer.setOnClickListener(view -> startActivity(new Intent(this, CustomerActivity.class)));
     }
 }
