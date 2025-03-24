@@ -54,13 +54,24 @@ dependencies {
     implementation("com.google.firebase:firebase-auth")
 
     // ZaloPay SDK (For payments)
-    implementation("vn.zalopay.sdk:zalopay-sdk:1.0.3")
+    implementation("com.squareup.okhttp3:okhttp:4.6.0");
+    implementation("commons-codec:commons-codec:1.14");
+    implementation(fileTree(mapOf(
+        "dir" to "C:\\Users\\Admin\\OneDrive\\Desktop\\Ass\\ZaloPayLib",
+        "include" to listOf("*.aar", "*.jar"),
+        "exclude" to listOf("")
+    )))
 
     // Google Maps (Optional)
     implementation("com.google.android.gms:play-services-maps:18.1.0")
 
     // Notifications
     implementation("com.google.firebase:firebase-messaging")
+    implementation(fileTree(mapOf(
+        "dir" to "C:\\Users\\Admin\\OneDrive\\Desktop\\Ass\\ZaloPayLib",
+        "include" to listOf("*.aar", "*.jar"),
+        "exclude" to listOf("")
+    )))
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
