@@ -51,10 +51,8 @@ public class OrderPayment extends AppCompatActivity {
         Intent intent = getIntent();
 
         if (intent != null) {
-            int amount = intent.getIntExtra("soluong", 1);
+            int amount = intent.getIntExtra("soluong", 0);
             currentAmount = amount;
-            Soluong.setText(String.valueOf(currentAmount));
-            currentTotal = 1_000_000 * amount;
             Tong.setText(String.valueOf(currentTotal));
         }
 

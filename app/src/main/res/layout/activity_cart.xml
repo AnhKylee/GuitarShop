@@ -25,4 +25,10 @@
         android:text="Tổng tiền: 0 VNĐ"
         android:textSize="18sp"
         android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/buttonThanhToan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Thanh Toan" />
 </LinearLayout>

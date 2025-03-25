@@ -18,7 +18,7 @@ public class PaymentActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_payment);
+        setContentView(R.layout.activity_cart);
         btnConfirm = findViewById(R.id.buttonConfirm);
         edtSoluong = findViewById(R.id.editTextSoluong);
 
